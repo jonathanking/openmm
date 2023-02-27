@@ -725,7 +725,7 @@ class Modeller(object):
                     terminal = hydrogen.attrib['terminal']
                 data.hydrogens.append(Modeller._Hydrogen(hydrogen.attrib['name'], hydrogen.attrib['parent'], maxph, atomVariants, terminal))
 
-    def addHydrogens(self, forcefield=None, pH=7.0, variants=None, platform=None):
+    def addHydrogens(self, forcefield=None, pH=7.0, variants=None, platform=None, seed=None):
         """Add missing hydrogens to the model.
 
         Some residues can exist in multiple forms depending on the pH and properties of the local environment.  These
@@ -791,6 +791,9 @@ class Modeller(object):
         platform : Platform=None
             the Platform to use when computing the hydrogen atom positions.  If
             this is None, the default Platform will be used.
+        seed : int=None
+            an optional random seed to use when randomly placing new hydrogens at
+            the start of the procedure.
 
         Returns
         -------
@@ -798,6 +801,9 @@ class Modeller(object):
              a list of what variant was actually selected for each residue,
              in the same format as the variants parameter
         """
+        if seed is not None:
+            random.seed(seed)
+
         # Check the list of variants.
 
         residues = list(self.topology.residues())
