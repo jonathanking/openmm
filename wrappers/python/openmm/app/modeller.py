@@ -63,7 +63,7 @@ class Modeller(object):
     _residueHydrogens = {}
     _hasLoadedStandardHydrogens = False
 
-    def __init__(self, topology, positions):
+    def __init__(self, topology, positions, random_seed=None):
         """Create a new Modeller object
 
         Parameters
@@ -72,6 +72,8 @@ class Modeller(object):
             the initial Topology of the model
         positions : list
             the initial atomic positions
+        random_seed : int, optional
+            the random seed to use for reproducible random number generation
         """
         ## The Topology describing the structure of the system
         self.topology = topology
@@ -79,6 +81,9 @@ class Modeller(object):
             positions = positions*nanometer
         ## The list of atom positions
         self.positions = positions
+        ## If provided, set the random seed
+        if random_seed is not None:
+            random.seed(random_seed)
 
     def getTopology(self):
         """Get the Topology of the model."""
